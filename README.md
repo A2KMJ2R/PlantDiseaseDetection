@@ -1,2 +1,0 @@
-# PlantDiseaseDetection
-Group Project
