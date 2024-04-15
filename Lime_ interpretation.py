@@ -27,7 +27,6 @@ def load_and_preprocess_image(image_path):
     return img
 
 # Load and preprocess the image
-# image_path = r"C:\Users\Joel\Downloads\PlantDisease\test\test1\TomatoEarlyBlight1.JPG"
 image = load_and_preprocess_image(image_path)
 
 # Generate explanations for your model's prediction
@@ -67,7 +66,6 @@ def load_and_preprocess_image(image_path):
     return img
 
 # Load and preprocess the image
-# image_path = r"C:\Users\Joel\Downloads\PlantDisease\test\test1\TomatoEarlyBlight1.JPG"
 image = load_and_preprocess_image(image_path)
 
 # Generate explanations for your model's prediction
