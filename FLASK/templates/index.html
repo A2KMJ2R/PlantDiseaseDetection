@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Plant Disease Detection</h2>
+
+<div>
+    <form id="upload-file" method="post" enctype="multipart/form-data">
+        <label for="imageUpload" class="upload-label">
+            Choose...
+        </label>
+        <input type="file" name="file" id="imageUpload" accept=".png, .jpg, .jpeg">
+        <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+    </form>
+
+    <div class="image-section" style="display:none;">
+        <div class="img-preview">
+            <div id="imagePreview">
+                <img id="preview" src="" alt="Image Preview" style="max-width: 300px;">
+            </div>
+        </div>
+       <div>
+            <!-- Display prediction confidence here-->
+            <h4></h4>
+            <p> <span id="plant-type-confidence"></span></p>
+            <p> <span id="plant-disease-confidence"></span></p>
+        </div>
+    </div>
+
+    <div class="loader" style="display:none;"></div>
+
+    <h3 id="result">
+        Plant Type: <span id="plant-type"></span><br>
+        Plant Disease: <span id="plant-disease"></span>
+    </h3>
+
+</div>
+
+<script>
+    // Image preview function
+    function previewImage() {
+        var preview = document.querySelector('#preview');
+        var file = document.querySelector('input[type=file]').files[0];
+        var reader = new FileReader();
+
+        reader.onloadend = function () {
+            preview.src = reader.result; // Set the src attribute to the data URL of the uploaded image
+        }
+
+        if (file) {
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = "";
+        }
+    }
+
+    document.querySelector('#imageUpload').addEventListener('change', previewImage);
+</script>
+
+<script>
+    // Ajax request to Flask endpoint
+    $("#upload-file").submit(function(event){
+        event.preventDefault();
+        var formData = new FormData($(this)[0]);
+        
+        $.ajax({
+            url: '/',
+            type: 'POST',
+            data: formData,
+            async: false,
+            success: function(response) {
+                $("#plant-type").text(response.plant_type);
+                $("#plant-disease").text(response.plant_disease);
+                $(".image-section").show();
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+        return false;
+    });
+</script>
+
+{% endblock %}
